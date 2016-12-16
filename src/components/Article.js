@@ -1,18 +1,19 @@
 import React, { Component } from 'react'
+import CommentsList from './CommentsList'
 
 export default class Article extends Component {
     state = {
         isOpen: false
     }
 
-/*
-    constructor() {
-        super()
-        this.state = {
-            isOpen: false
-        }
-    }
-*/
+    /*
+     constructor() {
+     super()
+     this.state = {
+     isOpen: false
+     }
+     }
+     */
 
     render() {
         const { article } = this.props
@@ -33,9 +34,12 @@ export default class Article extends Component {
     getBody() {
         if (!this.state.isOpen) return null
         return (
-            <section>
-                {this.props.article.text}
-            </section>
+            <div>
+                <section>
+                    {this.props.article.text}
+                </section>
+                <CommentsList comments = {this.props.article.comments} />
+            </div>
         )
     }
 }
