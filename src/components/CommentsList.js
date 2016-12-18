@@ -19,6 +19,8 @@ export default class Comments extends Component {
     }
 
     getCommentsBody = () => {
+        //хорошо, но старайся не использовать let, лучше const
+        //в идеале Comment тоже в отдельный компонент вынести
         let text = 'Показать комментарии'
         if (this.state.isOpen) {
             text = 'Скрыть комментарии'
