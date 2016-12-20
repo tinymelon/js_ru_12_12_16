@@ -5,11 +5,7 @@ export default class Article extends Component {
     static propTypes = {
         article: PropTypes.object.isRequired
     }
-
-    componentDidMount() {
-        console.log('---', this.refs.container)
-    }
-
+    
     render() {
         const { article, onClick } = this.props
         return (
