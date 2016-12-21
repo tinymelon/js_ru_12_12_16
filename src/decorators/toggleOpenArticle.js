@@ -4,7 +4,9 @@ import React from 'react'
 export default function toggleOpenArticle(Component) {
     return class WrapperComponent extends React.Component {
         state = {
+            //суть декораторов в переисползовании кода, не привязывайся к названиям сущностей. Лучше openItemId
             openArticleId: null,
+            //не понял зачем это тебе нужно
             prevOpenedArticle: null
         }
         render() {
@@ -12,6 +14,7 @@ export default function toggleOpenArticle(Component) {
         }
 
         toggleOpenArticle = (id) => {
+            //тебе не нужно prevOpenedArticle - хватит openArticleId != id
             if (this.state.prevOpenedArticle != id)
                 this.setState({
                     prevOpenedArticle: this.state.openArticleId
