@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import Select from 'react-select'
+import DatePicker from './DatePicker'
 import 'react-select/dist/react-select.css'
 
 class Filter extends Component {
@@ -19,6 +20,7 @@ class Filter extends Component {
         return (
             <div>
                 <Select options={options} value={this.state.selected} onChange={this.handleChange} multi={true}/>
+                <DatePicker />
             </div>
         )
     }
