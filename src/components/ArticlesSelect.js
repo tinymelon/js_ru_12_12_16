@@ -1,5 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import Select from 'react-select'
+import { setFiltersLabel } from '../AC'
+import { connect } from 'react-redux'
 import 'react-select/dist/react-select.css'
 
 class ArticlesSelect extends Component {
@@ -23,9 +25,17 @@ class ArticlesSelect extends Component {
         )
     }
 
-    handleChange = selected => this.setState({
-        selected
-    })
+    handleChange = selected => {
+        this.setState({
+            selected
+        })
+        this.props.setFiltersLabel(selected)
+    }
 }
 
-export default ArticlesSelect
+
+export default connect((state) => {
+    return {
+        articles: state.articles
+    }
+}, { setFiltersLabel })(ArticlesSelect)
