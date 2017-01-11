@@ -12,6 +12,7 @@ class ArticleList extends React.Component {
     render() {
         const {articles, filters, isOpenItem, toggleOpenItem} = this.props
         var filteredArticles = articles
+        //это лучше делать в коннекте
         if (this.props.filters.labels && this.props.filters.labels.length) {
             filteredArticles = articles.filter(article => {
                 var useThis = false;
