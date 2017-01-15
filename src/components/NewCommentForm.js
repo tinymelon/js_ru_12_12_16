@@ -2,7 +2,8 @@ import React, { Component, PropTypes } from 'react'
 
 class NewCommentForm extends Component {
     static propTypes = {
-        addComment: PropTypes.func
+        add_comment: PropTypes.func.isRequired,
+        articleId: PropTypes.string.isRequired
     }
 
     state = {
@@ -18,7 +19,9 @@ class NewCommentForm extends Component {
 
     handleSubmit = ev => {
         ev.preventDefault()
-        this.props.addComment(this.state)
+        const { add_comment, articleId } = this.props
+        add_comment(this.state, articleId)
+
         this.setState({
             user: '',
             text: ''
