@@ -23,6 +23,7 @@ export default (state = new DefaultReducerState({}), action) => {
             return state.setIn(['entities'], randomId, new CommentModel({...payload.comment, id: randomId}))
 
         case LOAD_COMMENTS + START:
+            //здесь так не пройдет, ведь теоретически ты можешь одновременно для нескольких статей загружать
             return state.set('loading', true)
 
         case LOAD_COMMENTS + SUCCESS:
