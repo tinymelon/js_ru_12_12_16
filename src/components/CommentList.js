@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react'
-import {addComment} from '../AC'
+import {addComment, loadCommentsByArticle} from '../AC'
 import Comment from './Comment'
+import Loader from './Loader'
 import toggleOpen from '../decorators/toggleOpen'
 import NewCommentForm from './NewCommentForm'
 import {connect} from 'react-redux'
@@ -12,7 +13,12 @@ class CommentList extends Component {
         toggleOpen: PropTypes.func
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (!this.props.isOpen && nextProps.isOpen) nextProps.loadCommentsByArticle(nextProps.article.id)
+    }
+
     render() {
+        console.log(this.props)
         return (
             <div>
                 {this.getLink()}
@@ -28,14 +34,24 @@ class CommentList extends Component {
     }
 
     getBody() {
-        const { comments, article, isOpen, addComment } = this.props
+        const { comments, article, isOpen, addComment, loading } = this.props
         if (!isOpen) return null
         const form = <NewCommentForm addComment={(comment) => addComment(article.id, comment)} />
         if (!comments.length) return <div><p>No comments yet</p>{form}</div>
-
-        const commentItems = comments.map(comment => <li key = {comment.id}><Comment comment = {comment} /></li>)
+        //Полагаю, решение с кучей условий не особо верное, но как-то у меня не появилось идей, как еще это можно сделать
+        if (!loading) {
+            var commentItems = comments.map(comment => {
+                if (comment) return <li key={comment.id}><Comment comment={comment}/></li>
+                else return null
+            })
+            var loader = false;
+        } else {
+            var loader = <Loader />
+            var commentItems = false;
+        }
         return (
             <div>
+                {loader}
                 <ul>{commentItems}</ul>
                 {form}
             </div>
@@ -44,7 +60,10 @@ class CommentList extends Component {
 }
 
 export default connect((storeState, props) => {
+    var comments_js = storeState.comments.entities.toJS()
     return {
-        comments: props.article.comments.map(id => storeState.comments.get(id))
+        //comments: props.article.comments.map(id => comments_js[id]),
+        comments: props.article.comments.map(id => storeState.comments.getIn(['entities', id])),
+        loading: storeState.comments.loading
     }
-}, { addComment })(toggleOpen(CommentList))
+}, { addComment, loadCommentsByArticle })(toggleOpen(CommentList))

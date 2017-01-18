@@ -28,5 +28,6 @@ module.exports = {
                 loader: "style-loader!css-loader"
             }
         ]
-    }
+    },
+    watch: true
 }
