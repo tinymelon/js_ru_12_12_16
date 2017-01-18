@@ -39,6 +39,7 @@ class CommentList extends Component {
         const form = <NewCommentForm addComment={(comment) => addComment(article.id, comment)} />
         if (!comments.length) return <div><p>No comments yet</p>{form}</div>
         //Полагаю, решение с кучей условий не особо верное, но как-то у меня не появилось идей, как еще это можно сделать
+        //не то, чтобы не верное, просто не красивое. мог бы сразу Loader вернуть и дальше не писать if/else 
         if (!loading) {
             var commentItems = comments.map(comment => {
                 if (comment) return <li key={comment.id}><Comment comment={comment}/></li>
