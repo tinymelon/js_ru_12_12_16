@@ -63,6 +63,7 @@ export function loadCommentsByArticle(id) {
         })
 
         setTimeout(function() {
+            //ок, только зачем тебе кроссдоменные запросы? лучше бы в вебпаке редирект сделал
             $.get(`http://vm8651.vps.agava.net:3001/api/comment?article=${id}`)
                 .done(response => dispatch({
                     type: LOAD_COMMENTS + SUCCESS,
