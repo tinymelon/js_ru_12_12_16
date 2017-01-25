@@ -17,6 +17,7 @@ class Article extends Component {
 
     static contextTypes = {
         router: PropTypes.object,
+        //тут и в других местах: лучше сделай вукоратор либо компонент-обертку для локализации, чтоб не обращатся кажды раз к контексту, иначе потом тяжело будет что-либо поменять
         language: PropTypes.string
     }
 
