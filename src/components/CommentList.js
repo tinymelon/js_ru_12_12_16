@@ -5,6 +5,7 @@ import toggleOpen from '../decorators/toggleOpen'
 import NewCommentForm from './NewCommentForm'
 import Loader from './Loader'
 import {connect} from 'react-redux'
+import {translator} from '../helpers'
 
 class CommentList extends Component {
     static propTypes = {
@@ -14,7 +15,8 @@ class CommentList extends Component {
     }
 
     static contextTypes = {
-        user: PropTypes.string
+        user: PropTypes.string,
+        language: PropTypes.string
     }
 
     componentWillReceiveProps({isOpen, article, loadArticleComments}) {
@@ -33,7 +35,7 @@ class CommentList extends Component {
 
     getLink() {
         return <a href="#" onClick = {this.props.toggleOpen}>
-            {this.props.isOpen ? 'hide' : 'show'} comments
+            {this.props.isOpen ? translator(this.context.language, 'hide') : translator(this.context.language, 'show')} {translator(this.context.language, 'comments')}
         </a>
     }
 
@@ -42,12 +44,12 @@ class CommentList extends Component {
         if (!isOpen) return null
         if (article.loadingComments || !article.loadedComments) return <Loader />
         const form = <NewCommentForm addComment={(comment) => addComment(article.id, comment)} />
-        if (!comments.length) return <div><p>No comments yet</p>{form}</div>
+        if (!comments.length) return <div><p>{translator(this.context.language, 'No comments yet')}</p>{form}</div>
 
         const commentItems = comments.map(comment => <li key = {comment.id}><Comment comment = {comment} /></li>)
         return (
             <div>
-                <b>User: {this.context.user}</b>
+                <b>{translator(this.context.language, 'User')}: {this.context.user}</b>
                 <ul>{commentItems}</ul>
                 {form}
             </div>

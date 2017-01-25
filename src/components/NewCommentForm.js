@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react'
+import {translator} from '../helpers'
 
 class NewCommentForm extends Component {
     static propTypes = {
@@ -8,6 +9,10 @@ class NewCommentForm extends Component {
     state = {
         text: '',
         user: ''
+    }
+
+    static contextTypes = {
+        language: PropTypes.string
     }
 
     handleChange = field => ev => {
@@ -28,8 +33,8 @@ class NewCommentForm extends Component {
     render() {
         return (
             <form onSubmit = {this.handleSubmit}>
-                comment: <input type="text" value={this.state.text} onChange = {this.handleChange('text')}/>
-                user: <input type="text" value={this.state.user} onChange = {this.handleChange('user')}/>
+                {translator(this.context.language, 'comment')}: <input type="text" value={this.state.text} onChange = {this.handleChange('text')}/>
+                {translator(this.context.language, 'user')}: <input type="text" value={this.state.user} onChange = {this.handleChange('user')}/>
                 <input type = "submit"/>
             </form>
         )

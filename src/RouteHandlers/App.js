@@ -3,23 +3,31 @@ import store from '../store'
 import { Provider } from 'react-redux'
 import Menu from '../components/menu/Menu'
 import MenuItem from '../components/menu/MenuItem'
+import {translator} from '../helpers'
 
 class App extends Component {
     static propTypes = {
 
     };
 
+    static contextTypes = {
+        router: PropTypes.object
+    }
+
     state = {
-        username: ''
+        username: '',
+        language: this.context.router.location.pathname.indexOf('ru') >= 0 ? 'ru' : 'en'
     }
 
     static childContextTypes = {
-        user: PropTypes.string
+        user: PropTypes.string,
+        language: PropTypes.string
     }
 
     getChildContext() {
         return {
-            user: this.state.username
+            user: this.state.username,
+            language: this.state.language
         }
     }
 
@@ -28,15 +36,16 @@ class App extends Component {
         return (
             <Provider store = {store}>
                 <div>
-                    <h1>News App</h1>
+                    <h1>{translator(this.state.language, 'News App')}</h1>
+                    <div><a href={`/${this.state.language == 'ru' ? 'en' : 'ru'}/`}>{translator(this.state.language, 'Switch to another language')}</a><br/><br/><br/></div>
                     <div>
-                        Input username:
+                        {translator(this.state.language, 'Input username')}:
                         <input type="text" value={this.state.username} onChange={this.handleChange}/>
                     </div>
                     <Menu>
-                        <MenuItem path="/counter"/>
-                        <MenuItem path="/articles"/>
-                        <MenuItem path="/filters"/>
+                        <MenuItem path={`/${this.state.language}/counter`}/>
+                        <MenuItem path={`/${this.state.language}/articles`}/>
+                        <MenuItem path={`/${this.state.language}/filters`}/>
                     </Menu>
                     {this.props.children}
                 </div>

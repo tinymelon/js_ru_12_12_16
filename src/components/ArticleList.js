@@ -6,22 +6,27 @@ import accordion from '../decorators/accordion'
 import { connect } from 'react-redux'
 import { mapToArray } from '../helpers'
 import { loadAllArticles } from '../AC'
+import {translator} from '../helpers'
 
 class ArticleList extends React.Component {
     componentDidMount() {
         this.props.loadAllArticles()
     }
 
+    static contextTypes = {
+        language: PropTypes.string
+    }
+
     render() {
         const {articles, loading, isOpenItem, toggleOpenItem} = this.props
         const articleElements = articles.map(article =>
             <li key={article.id}>
-                <Link to={`/articles/${article.id}`} activeStyle={{color: 'red'}}>{article.title}</Link>
+                <Link to={`/${this.context.language}/articles/${article.id}`} activeStyle={{color: 'red'}}>{article.title}</Link>
             </li>)
         const loader = loading && <Loader />
         return (
             <div>
-                <h2>Article List</h2>
+                <h2>{translator(this.context.language, 'Article list')}</h2>
                 <ul>
                     {/*some comment*/}
                     {articleElements}
@@ -59,5 +64,5 @@ export default connect(
             loading: state.articles.loading
         }
     },
-    { loadAllArticles }
+    { loadAllArticles }, null, {pure: false}
 )(accordion(ArticleList))
